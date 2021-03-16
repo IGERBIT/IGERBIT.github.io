@@ -1,1 +1,44 @@
-<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="favicon.ico"><title>Гамов, ах Гамов...</title><link href="js/chunk-2d0bdcb0.fffdcb0c.js" rel="prefetch"><link href="js/polyfills-core-js.dd15e265.js" rel="prefetch"><link href="js/polyfills-dom.9891cfed.js" rel="prefetch"><link href="css/app.20f59974.css" rel="preload" as="style"><link href="js/app.cae840a3.js" rel="preload" as="script"><link href="js/chunk-vendors.d5cf3802.js" rel="preload" as="script"><link href="css/app.20f59974.css" rel="stylesheet"></head><body><noscript><strong>We're sorry but gamov-site doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id="app"></div><script src="js/chunk-vendors.d5cf3802.js"></script><script src="js/app.cae840a3.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>19/20/21</title>
+</head>
+<body>
+	<input name="target" id="target" type="number" value="77">
+	<input name="stack" id="stack" type="text" value="7">
+	<textarea name="fncs" id="fncs" cols="30" rows="10"
+	>(a,i) => a[i]++
+(a,i) => a[i] *= 2</textarea>
+	<input name="min" id="min" type="checkbox">
+	<input  type="submit" onclick="calc()">
+	<div id="result" ></div>
+	<script>
+		
+		const txt = document.getElementById('result');
+		const f= (mx,e,z,min=0,n=(a,fs,c)=>a.reduce((ac,_,i)=>[...ac,...fs.map(f=>(c=[...a],f(c,i),c))],[]),p=s=>s.reduce((a,b)=>a+b,0),ch=s=>Array.isArray(s[0])?s.some(ch):(min?p(s)<=mx:p(s)>=mx),j=[...Array(101).keys()])=>[(f=>j.filter(i=>(f=n([...e,i],z),i&&!ch(f)&&ch(f.map(v=>n(v,z))))))(),((f,s)=>j.filter(i=>(f=n([...e,i],z),i &&!ch(f)&&f.some(fs=>(s=n(fs,z),!ch(s)&&s.every(v=>ch(n(v,z))))))))(),((g,f,s,t)=>j.filter(i=>(g=0,f=n([...e,i],z),i&&!ch(f)&&f.every(ff=>(s=n(ff,z),ch(s)?!0:g=s.some(sf=>(t=n(sf,z),!ch(t)&&t.every(v=>ch(n(v,z)))))))&&g)))()];
+		
+		function calc(){
+			let target = document.getElementById('target').value;
+			let stack = document.getElementById('stack').value;
+			let fncs = document.getElementById('fncs').value;
+			let min = document.getElementById('min').checked;
+
+			if(target && fncs){
+				try {
+					let r = f(+target,!stack ? [] : stack.split(',').map(x => +x), fncs.split('\n').map(x => eval(x)),min);
+					txt.innerText = `19: ${r[0].join(', ')}\n20: ${r[1].join(', ')}\n21: ${r[2].join(', ')}`
+				}
+				catch(e){
+					txt.textContent = `ERROR: ${e}`
+				}
+			}
+		}
+		
+		
+
+	</script>
+</body>
+</html>
