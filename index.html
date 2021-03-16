@@ -20,7 +20,7 @@
 		const txt = document.getElementById('result');
 		const f= (mx,e,z,min=0,n=(a,fs,c)=>a.reduce((ac,_,i)=>[...ac,...fs.map(f=>(c=[...a],f(c,i),c))],[]),p=s=>s.reduce((a,b)=>a+b,0),ch=s=>Array.isArray(s[0])?s.some(ch):(min?p(s)<=mx:p(s)>=mx),j=[...Array(101).keys()])=>[(f=>j.filter(i=>(f=n([...e,i],z),i&&!ch(f)&&ch(f.map(v=>n(v,z))))))(),((f,s)=>j.filter(i=>(f=n([...e,i],z),i &&!ch(f)&&f.some(fs=>(s=n(fs,z),!ch(s)&&s.every(v=>ch(n(v,z))))))))(),((g,f,s,t)=>j.filter(i=>(g=0,f=n([...e,i],z),i&&!ch(f)&&f.every(ff=>(s=n(ff,z),ch(s)?!0:g=s.some(sf=>(t=n(sf,z),!ch(t)&&t.every(v=>ch(n(v,z)))))))&&g)))()];
 		
-		let parseF = text => text.startWith('+') ? (a,i) => a[i] += +text.slice(1) : text.startWith('*') ? (a,i) => a[i] *= +text.slice(1) : eval(text)
+		let parseF = text => text.startsWith('+') ? (a,i) => a[i] += +text.slice(1) : text.startsWith('*') ? (a,i) => a[i] *= +text.slice(1) : eval(text)
 
 
 		function calc(){
