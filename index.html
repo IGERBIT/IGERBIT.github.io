@@ -5,13 +5,43 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>19/20/21</title>
+	<style>
+		body {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			background: #F0F8EA;
+		}
+		span {
+			font-size: 11px;
+			background: #e3e9de;
+			padding: 5px;
+			margin: 3px;
+		}
+
+		#result{
+			background: rgb(245, 245, 245);
+			padding: 20px;
+			margin: 10px;
+		}
+	</style>
 </head>
 <body>
+	<span>Минимальное кол-во камней для победы</span>
 	<input name="target" id="target" type="number" value="77">
+	<span>Известные кучи камней(значения через запятую)</span>
 	<input name="stack" id="stack" type="text" value="7">
+	<span>Возможные действия(1 строка = 1 действие)
+		<br>Добавить в кучу: <code>+x</code> или <code>(a,i) => a[i] += x</code>
+		<br>Умножить кучу: <code>*x</code> или <code>(a,i) => a[i] *= x</code>
+		<br>Добавить в две кучи: <code>(a,i) => (a[i] += x,a[+!i] += y)</code>
+		<br>Деление кучи(в большую сторону): <code>(a,i) => a[i] = Math.ceil(a[i] / 2)</code>
+	</span>
 	<textarea name="fncs" id="fncs" cols="30" rows="10"
 	>(a,i) => a[i]++
 (a,i) => a[i] *= 2</textarea>
+	<span>Игра на понижение?</span>
 	<input name="min" id="min" type="checkbox">
 	<input  type="submit" onclick="calc()">
 	<div id="result" ></div>
@@ -32,7 +62,7 @@
 			if(target && fncs){
 				try {
 					let r = f(+target,!stack ? [] : stack.split(',').map(x => +x), fncs.split('\n').map(parseF),min);
-					txt.innerText = `19: ${r[0].join(', ')}\n20: ${r[1].join(', ')}\n21: ${r[2].join(', ')}`
+					txt.innerHTML = `<b>19:</b> ${r[0].join(', ')}<br/><b>20:</b> ${r[1].join(', ')}<br/><b>21:</b> ${r[2].join(', ')}`
 				}
 				catch(e){
 					txt.textContent = `ERROR: ${e}`
