@@ -8,7 +8,7 @@ const stylesHandler = "style-loader";
 const config = {
   entry: "./src/index.ts",
   output: {
-    path: path.resolve(__dirname, "../www/course-work"),
+    path: path.resolve(__dirname, "../course-work"),
   },
   devServer: {
     open: true,
