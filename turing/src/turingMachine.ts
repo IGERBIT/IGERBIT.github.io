@@ -13,26 +13,26 @@ export interface Move {
 }
 
 export class InfinityLine {
-	private _leftCells: number[] = [];
-	private _rightCells: number[] = [];
+	private _leftCells: string[] = [];
+	private _rightCells: string[] = [];
 
-	public getCell(index: number): number {
+	public getCell(index: number, defaultValue: string = null): string {
 		if (index < 0) {
 			index = -index + 1;
-			return this._leftCells[index] ?? NaN;
+			return this._leftCells[index] ?? defaultValue;
 		}
 		else {
-			return this._rightCells[index] ?? NaN;
+			return this._rightCells[index] ?? defaultValue;
 		}
 	}
 
-	public setCell(index: number, value: number): void {
+	public setCell(index: number, value: string): void {
 		if (index < 0) {
 			index = -index + 1;
-			this._leftCells[index] = value;
+			this._leftCells[index] = value[0];
 		}
 		else {
-			this._rightCells[index] = value;
+			this._rightCells[index] = value[0];
 		}
 	}
 
@@ -41,7 +41,7 @@ export class InfinityLine {
 		this._rightCells = [];
 	}
 
-	public writeLine(line: number[], startIndex: number = 0): void {
+	public writeLine(line: string, startIndex: number = 0): void {
 		for (let i = 0; i < line.length; i++) {
 			this.setCell(startIndex + i, line[i]);
 		}
@@ -55,6 +55,7 @@ export class InfinityLine {
 	}
 }
 
+
 export class TuringMachine {
 	private _startState: string= "";
 	private _startLine: InfinityLine = new InfinityLine();
@@ -65,6 +66,16 @@ export class TuringMachine {
 	private _line: InfinityLine;
 	private _step: number;
 	private _finished: boolean;
+
+	public leftShiftEvent: () => void;
+	public rightShiftEvent: () => void;
+	public finishEvent: () => void;
+	public updateCellEvent: (cell: number) => void;
+	public updateStateEvent: (value: string) => void;
+
+	constructor() {
+		this.reset();
+	}
 
 	public get actualState(): string {
 		return this._currentState;
@@ -84,11 +95,6 @@ export class TuringMachine {
 
 	public get actualLine(): InfinityLine {
 		return this._line;
-	}
-
-
-	constructor() {
-		this.reset();
 	}
 
 	public getMove(state: string, cellValue: string): Move {
@@ -112,16 +118,29 @@ export class TuringMachine {
 			this._startLine = this._line.duplicate();
 		}
 
-		const cellValue = String.fromCharCode(this._line.getCell(this._currentCell));
+		const cellValue = this._line.getCell(this._currentCell);
 		const move = this.getMove(this._currentState, cellValue);
 
 		if (move.done) {
+			if (this.finishEvent) this.finishEvent();
 			this._finished = true;
 		}
 		else {
-			this._line.setCell(this._currentCell, move.write.charCodeAt(0));
-			this._currentCell += move.direction;
-			this._currentState = move.state;
+			if (move.write) {
+				this._line.setCell(this._currentCell, move.write);
+				if (this.updateCellEvent) this.updateCellEvent(this._currentCell);
+			}
+
+			if (move.direction) {
+				this._currentCell += move.direction;
+				if (move.direction < 0 && this.leftShiftEvent) this.leftShiftEvent();
+				if (move.direction > 0 && this.rightShiftEvent) this.rightShiftEvent();
+			}
+
+			if (move.state) {
+				this._currentState = move.state;
+				if (this.updateStateEvent) this.updateStateEvent(this._currentState);
+			}
 		}
 
 		this._step++;

@@ -2,30 +2,61 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>Webpack App</title>
-		<link rel="stylesheet" href="style.css">
+        <title>Turing Machine</title>
     </head>
     <body>
         <nav>Turing Machine</nav>
 		<div class="mainline-block">
 			<div class="line">
-				<div class="cell">A</div>
-				<div class="cell">A</div>
-				<div class="cell">A</div>
-				<div class="cell">A</div>
-				<div class="cell">A</div>
-				<div class="cell">A</div>
-				<div class="cell">A</div>
-				<div class="cell">A</div>
-				<div class="cell">A</div>
-				<div class="cell">A</div>
-				<div class="cell">A</div>
-				<div class="cell">A</div>
-				<div class="cell">A</div>
-				<div class="cell">A</div>
-				<div class="cell">A</div>
-				<div class="cell">A</div>
-				<div class="cell">A</div>
+				
+				<div class="line-side left-side">
+					<div id="left-line" class="left-container"></div>
+				</div>
+				<div id="pointer" class="line-side center">
+
+				</div>
+				<div  class="line-side right-side">
+					<div id="right-line" class="right-container"></div>
+				</div>
+				<button id="move-left-btn" class="left-btn">&lt;</button>
+				<button id="move-right-btn" class="right-btn">&gt;</button>
+			</div>
+		</div>
+		<div class="general-wrapper">
+			<div class="controls">
+				<button id="run-btn" class="bg-green">Run</button>
+				<button id="step-btn" class="bg-blue">Make Step</button>
+				<button id="reset-btn" >Reset</button>
+			</div>
+			<div class="rules">
+				<div class="add-rules">
+					<div class="add-rules-block">
+						<div class="add-rules-block-title">State</div>
+						<input type="text" id="current-state" class="add-rules-block-input">
+					</div>
+					<div class="add-rules-block">
+						<div class="add-rules-block-title">Symbol</div>
+						<input type="text" id="current-symbol" class="add-rules-block-input">
+					</div>
+					<div class="add-rules-block">
+						<div class="add-rules-block-title">New Symbol</div>
+						<input type="text" id="new-symbol" class="add-rules-block-input">
+					</div>
+					<div class="add-rules-block">
+						<div class="add-rules-block-title">New State</div>
+						<input type="text" id="new-state" class="add-rules-block-input">
+					</div>
+					<div class="add-rules-block">
+						<div class="add-rules-block-title">Direction</div>
+						<select id="direction" class="add-rules-block-input">
+								<option value="left">Stay</option>
+								<option value="left">Left</option>
+								<option value="right">Right</option>
+						</select>
+					</div>
+					<button id="add-rule-btn" class="bg-green">Add Rule</button>
+					
+				</div>
 			</div>
 		</div>
 	
