@@ -1,38 +1,30 @@
 {
-  "name": "my-webpack-project",
-  "version": "1.0.0",
-  "description": "My webpack project",
-  "main": "./lib/index.js",
+  "name": "turing-machine",
+  "version": "1.1.0",
+  "description": "Turing Machine",
+  "main": "./src/index.ts",
   "scripts": {
-    "build": "webpack --mode=production --define-process-env-node-env=production",
-    "build:dev": "webpack --mode=development",
-    "watch-wp": "webpack --watch",
+    "build-ts": "tsc --module amd --target es6 --outDir dist",
+    "build-ts-next": "tsc --module amd --target esnext --outDir dist",
+
+	"build-js": "tsc --module es6 --target es6 --outDir js",
+	"build-js-next": "tsc --module es6 --target esnext --outDir js",
+	"build-js-nsm": "tsc --module es6 --target es6 --outDir js --sourceMap false",
+	"build-js-next-nsm": "tsc --module es6 --target esnext --outDir js --sourceMap false",
+    "build-css": "sass style.scss:dist/style.css",
     "watch-ts": "tsc --watch",
     "watch-css": "sass --watch style.scss:dist/style.css",
-	"watch": "concurrently  \"npm:watch-ts\" \"npm:watch-css\""
+	"build": "concurrently  \"npm:build-ts\" \"npm:build-css\" ",
+    "watch": "concurrently  \"npm:watch-ts\" \"npm:watch-css\""
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@webpack-cli/generators": "^3.0.0",
     "concurrently": "^7.6.0",
-    "css-loader": "^6.7.2",
-    "html-webpack-plugin": "^5.5.0",
     "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
     "sass": "^1.57.1",
-    "sass-loader": "^13.2.0",
-    "style-loader": "^3.3.1",
-    "ts-loader": "^9.4.1",
     "ts-node": "^10.9.1",
-    "typescript": "^4.9.3",
-    "webpack": "^5.75.0",
-    "webpack-cli": "^5.0.0",
-    "webpack-dev-server": "^4.11.1"
-  },
-  "files": [
-    "es",
-    "lib"
-  ],
-  "types": "./lib/index.d.ts"
+    "typescript": "^4.9.3"
+  }
 }

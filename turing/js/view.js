@@ -6,8 +6,12 @@ const DIRECTION2TEXT = {
     [DIRECTION.STAY]: "Нет",
 };
 class Cell {
+    _index;
+    _value;
+    _element;
+    _input;
+    _updateValue = null;
     constructor(index, value) {
-        this._updateValue = null;
         this._index = index;
         this._value = value;
         this._element = document.createElement("div");
@@ -55,6 +59,16 @@ class Cell {
     }
 }
 class RuleView {
+    _rule;
+    _element;
+    _state;
+    _symbol;
+    _newSymbol;
+    _move;
+    _newState;
+    _deleteBtn;
+    _deleteHandler = null;
+    _editHandler = null;
     get element() {
         return this._element;
     }
@@ -81,8 +95,6 @@ class RuleView {
         this._element.addEventListener("click", () => this._editHandler && this._editHandler(this._rule));
     }
     constructor(rule) {
-        this._deleteHandler = null;
-        this._editHandler = null;
         this.createRuleRow();
         this.rule = rule;
     }
@@ -90,13 +102,12 @@ class RuleView {
         return this._rule;
     }
     set rule(value) {
-        var _a, _b, _c;
         this._rule = value;
         this._state.textContent = value.state;
         this._symbol.textContent = value.cellValue;
-        this._newSymbol.textContent = (_a = value.move.write) !== null && _a !== void 0 ? _a : "";
-        this._move.textContent = DIRECTION2TEXT[(_b = value.move.direction) !== null && _b !== void 0 ? _b : DIRECTION.STAY];
-        this._newState.textContent = (_c = value.move.state) !== null && _c !== void 0 ? _c : "";
+        this._newSymbol.textContent = value.move.write ?? "";
+        this._move.textContent = DIRECTION2TEXT[value.move.direction ?? DIRECTION.STAY];
+        this._newState.textContent = value.move.state ?? "";
     }
     setDeleteHandler(handler) {
         this._deleteHandler = handler;
@@ -106,8 +117,10 @@ class RuleView {
     }
 }
 export class TuringMachineView {
+    _machine;
+    _context;
+    _runInterval = null;
     constructor(machine) {
-        this._runInterval = null;
         this._machine = machine;
         this._context = this.createContext();
     }
@@ -203,7 +216,6 @@ export class TuringMachineView {
         this.forceUpdateCells();
     }
     onAddRuleClicked(event) {
-        var _a;
         let state = this._context.newRuleState.value;
         if (!state)
             return;
@@ -220,7 +232,7 @@ export class TuringMachineView {
             state: state,
             cellValue: symbol,
             move: {
-                direction: (_a = value2direction[this._context.newRuleMove.value]) !== null && _a !== void 0 ? _a : DIRECTION.STAY,
+                direction: value2direction[this._context.newRuleMove.value] ?? DIRECTION.STAY,
                 state: newState || null,
                 write: newSymbol || null
             }
@@ -393,4 +405,3 @@ export class TuringMachineView {
         this.forceUpdateCell(index);
     }
 }
-//# sourceMappingURL=view.js.map

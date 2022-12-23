@@ -4,18 +4,15 @@ export const DIRECTION = {
     STAY: 0,
 };
 export class InfinityLine {
-    constructor() {
-        this._leftCells = [];
-        this._rightCells = [];
-    }
+    _leftCells = [];
+    _rightCells = [];
     getCell(index, defaultValue = "") {
-        var _a, _b;
         if (index < 0) {
             index = -index + 1;
-            return (_a = this._leftCells[index]) !== null && _a !== void 0 ? _a : defaultValue;
+            return this._leftCells[index] ?? defaultValue;
         }
         else {
-            return (_b = this._rightCells[index]) !== null && _b !== void 0 ? _b : defaultValue;
+            return this._rightCells[index] ?? defaultValue;
         }
     }
     setCell(index, value) {
@@ -44,11 +41,21 @@ export class InfinityLine {
     }
 }
 export class TuringMachine {
+    _startState = "";
+    _startLine = new InfinityLine();
+    _startCell = 0;
+    _rules = [];
+    _currentState;
+    _currentCell;
+    _line;
+    _step;
+    _finished;
+    leftShiftEvent;
+    rightShiftEvent;
+    finishEvent;
+    updateCellEvent;
+    updateStateEvent;
     constructor() {
-        this._startState = "";
-        this._startLine = new InfinityLine();
-        this._startCell = 0;
-        this._rules = [];
         this.reset();
     }
     get actualState() {
@@ -73,8 +80,7 @@ export class TuringMachine {
         return this._currentState === "!";
     }
     getMove(state, cellValue) {
-        var _a, _b;
-        return (_b = (_a = this._rules.find(rule => rule.state === state && rule.cellValue === cellValue)) === null || _a === void 0 ? void 0 : _a.move) !== null && _b !== void 0 ? _b : null;
+        return this._rules.find(rule => rule.state === state && rule.cellValue === cellValue)?.move ?? null;
     }
     reset() {
         this._currentState = this._startState;
@@ -149,4 +155,3 @@ export class TuringMachine {
         return [...this._rules];
     }
 }
-//# sourceMappingURL=turingMachine.js.map

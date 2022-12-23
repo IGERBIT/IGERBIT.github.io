@@ -21,4 +21,3 @@ export function elementFromTemplate(html, args) {
     }
     return element;
 }
-//# sourceMappingURL=utils.js.map

@@ -11,6 +11,14 @@
 			"url": "http://localhost:5500/turing/index.html",
 			"webRoot": "${workspaceFolder}",
 			"sourceMaps": true,
+		},
+		{
+			"type": "chrome",
+			"request": "launch",
+			"name": "Launch Chrome against current",
+			"url": "http://localhost:5500/${relativeFile}",
+			"webRoot": "${workspaceFolder}",
+			"sourceMaps": true,
 		}
 	]
 }
