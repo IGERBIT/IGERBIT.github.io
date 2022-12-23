@@ -1,9 +1,8 @@
 {
   "compilerOptions": {
     "noImplicitAny": true,
-    "module": "AMD",
     "target": "ES6",
-	"outDir": "./dist",
+	"outDir": "./js",
 	"baseUrl": "./",
 	"sourceMap": true,
     "allowJs": true,
