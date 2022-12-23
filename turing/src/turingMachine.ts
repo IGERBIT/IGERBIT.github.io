@@ -12,11 +12,17 @@ export interface Move {
 	done?: boolean;
 }
 
+export const DIRECTION = {
+	LEFT: -1,
+	RIGHT: 1,
+	STAY: 0,
+};
+
 export class InfinityLine {
 	private _leftCells: string[] = [];
 	private _rightCells: string[] = [];
 
-	public getCell(index: number, defaultValue: string = null): string {
+	public getCell(index: number, defaultValue: string = ""): string {
 		if (index < 0) {
 			index = -index + 1;
 			return this._leftCells[index] ?? defaultValue;
@@ -56,9 +62,12 @@ export class InfinityLine {
 }
 
 
+type AddRuleResult = "added" | "updated";
+
 export class TuringMachine {
 	private _startState: string= "";
 	private _startLine: InfinityLine = new InfinityLine();
+	private _startCell: number = 0;
 	private _rules: Rule[] = [];
 
 	private _currentState: string;
@@ -81,49 +90,61 @@ export class TuringMachine {
 		return this._currentState;
 	}
 
-	public get startState(): string {
-		return this._startState;
-	}
-
-	public set startState(state: string) {
-		this._startState = state;
+	public set actualState(value: string) {
+		this._currentState = value;
 	}
 
 	public get actualCell(): number {
 		return this._currentCell;
 	}
 
-	public get actualLine(): InfinityLine {
+	public set actualCell(value: number) {
+		this._currentCell = value;
+	}
+
+	public get line(): InfinityLine {
 		return this._line;
 	}
 
+	public get step(): number {
+		return this._step;
+	}
+
+	public get finished(): boolean {
+		return this._currentState === "!";
+	}
+
 	public getMove(state: string, cellValue: string): Move {
-		return this._rules.find(rule => rule.state === state && rule.cellValue === cellValue)?.move ?? {};
+		return this._rules.find(rule => rule.state === state && rule.cellValue === cellValue)?.move ?? null;
 	}
 
 	public reset(): void {
 		this._currentState = this._startState;
-		this._currentCell = 0;
+		this._currentCell = this._startCell;
 		this._line = this._startLine.duplicate();
 		this._step = 0;
 		this._finished = false;
+		if (this.updateStateEvent) this.updateStateEvent(this._currentState);
 	}
 
 	public makeStep(): void {
-		if (this._finished) {
+		if (this.finished) {
 			return;
 		}
 
 		if (this._step === 0) { 
 			this._startLine = this._line.duplicate();
+			this._startState = this._currentState;
+			this._startCell = this._currentCell;
 		}
 
-		const cellValue = this._line.getCell(this._currentCell);
+		const cellValue = this._line.getCell(this._currentCell, "");
 		const move = this.getMove(this._currentState, cellValue);
 
-		if (move.done) {
+		if (!move || move.done) {
 			if (this.finishEvent) this.finishEvent();
-			this._finished = true;
+			this._currentState = "!";
+			if (this.updateStateEvent) this.updateStateEvent(this._currentState);
 		}
 		else {
 			if (move.write) {
@@ -147,18 +168,27 @@ export class TuringMachine {
 	}
 
 
-	public addRule(rule: Rule): void {
+	public addRule(rule: Rule): AddRuleResult {
 		var existingRule = this._rules.find(r => r.state === rule.state && r.cellValue === rule.cellValue);
 		if (!existingRule) {
 			this._rules.push(rule);
+			return "added";
 		}
 		else {
 			existingRule.move = rule.move;
+			return "updated";
 		}
 	}
 
-	public removeRule(state: string, cellValue: string): void {
-		this._rules = this._rules.filter(rule => rule.state !== state || rule.cellValue !== cellValue);
+	public removeRule(state: string, cellValue: string): boolean {
+		const index = this._rules.findIndex(rule => rule.state === state && rule.cellValue === cellValue);
+		if (index === -1) {
+			return false;
+		}
+		else {
+			this._rules.splice(index, 1);
+			return true;
+		}
 	}
 
 	public getAllRules(): Rule[] {

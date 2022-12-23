@@ -1,0 +1,417 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
+
+* {
+	margin: 0;
+	padding: 0;
+	font-family: "Noto Sans", sans-serif;
+	box-sizing: border-box;
+}
+
+nav {
+	padding: 10px 20px;
+	color: white;
+	font-size: larger;
+	background-color: #000;
+}
+
+body {
+	overflow-x: hidden;
+}
+
+button {
+	padding: 10px 10px;
+	border: none;
+	border-radius: 5px;
+	background-color: #000;
+	color: white;
+	font-size: medium;
+	cursor: pointer;
+}
+
+.bg-green {
+	background-color: #0a910a;
+}
+
+.bg-blue {
+	background-color: #3158da;
+}
+
+.bg-red {
+	background-color: #bb0a0a;
+}
+
+$box-size: 50px;
+
+.mainline-block {
+	width: 100%;
+	background: rgb(238, 238, 238);
+	position: relative;
+	border-bottom: #000 solid 2px;
+	.line {
+		width: 100%;
+		height: $box-size + 100px;
+		display: flex;
+		justify-content: center;
+		position: relative;
+		align-items: center;
+		flex-direction: row;
+		overflow-x: hidden;
+		overflow-y: auto;
+		padding: 50px 10px;
+		box-sizing: content-box;
+
+		> .left-btn {
+			position: absolute;
+			left: 0;
+			top: 0;
+			height: 100%;
+			width: $box-size;
+			display: flex;
+			align-items: center;
+			border-radius: 0;
+			justify-content: center;
+			font-size: medium;
+			background: rgba(10, 10, 10, 1);
+			z-index: 2;
+			color: white;
+			cursor: pointer;
+			transition: all 0.3s ease-in-out;
+			&:hover {
+				background: rgba(45, 45, 45, 1);
+			}
+		}
+
+		> .right-btn {
+			position: absolute;
+			right: 0;
+			top: 0;
+			height: 100%;
+			width: 50px;
+			display: flex;
+			align-items: center;
+			border-radius: 0;
+			font-size: medium;
+			justify-content: center;
+			background: rgba(10, 10, 10, 1);
+			z-index: 2;
+			color: white;
+			cursor: pointer;
+			transition: all 0.3s ease-in-out;
+			&:hover {
+				background: rgba(45, 45, 45, 1);
+			}
+		}
+
+		> .line-side {
+			flex: 1 0 auto;
+			position: relative;
+			height: $box-size;
+			width: 100%;
+
+			&.center {
+				flex: 0 0 auto;
+				width: $box-size;
+				height: $box-size;
+				border: #000 solid 4px;
+				margin: 0 4px;
+				box-sizing: content-box;
+			}
+
+			> .left-container {
+				display: flex;
+				justify-content: flex-end;
+				flex-direction: row;
+				right: 0;
+				width: auto;
+				height: 100%;
+				position: relative;
+			}
+
+			> .right-container {
+				display: flex;
+				justify-content: flex-start;
+				flex-direction: row;
+			}
+
+			.cell {
+				display: block;
+				width: $box-size;
+				border: #000 solid 1px;
+				height: $box-size;
+				flex: 0 1 auto;
+				transition: all 0.4s;
+				padding: 5px;
+
+				> .cell-input {
+					width: 100%;
+					height: 100%;
+					border: none;
+					background: transparent;
+					text-align: center;
+					font-size: 1.5em;
+					font-weight: bold;
+					color: #000;
+					transition: all 0.4s;
+
+					&:focus {
+						outline: none;
+					}
+				}
+
+				&[data-index="0"] {
+					background: #ffe591;
+				}
+			}
+		}
+
+		.current-state {
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 100%;
+			width: 100%;
+			display: flex;
+			justify-content: flex-end;
+			align-items: center;
+			flex-direction: column;
+			transition: all 0.4s;
+
+			&-title {
+				font-size: 1em;
+				font-weight: bold;
+				color: #000;
+				padding: 2px;
+				border-radius: 5px;
+			}
+
+			&-value {
+				font-size: 1.5em;
+				font-weight: bold;
+				color: #000;
+				padding: 2px 0;
+				border-top: 2px solid #000;
+				border-left: 2px solid #000;
+				border-right: 2px solid #000;
+				border-radius: 5px 5px 0 0;
+				text-align: center;
+				border-bottom: none;
+				background: transparent;
+				
+				&:focus {
+					outline: none;					
+				}
+			}
+		}
+	}
+}
+
+.general-wrapper {
+	padding: 5px 100px 0 100px;
+	height: 100%;
+
+	> .message {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: flex-end;
+		flex-direction: row;
+		pointer-events: none;
+		transition: all 0.4s;
+		font-size: 1.5em;
+		font-weight: bold;
+		color: #000;
+		padding: 10px;
+		border-radius: 5px;
+	}
+
+	> .controls {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: row;
+		padding: 10px 0;
+
+		> * {
+			margin: 0 10px;
+		}
+	}
+
+	> .rules {
+		> .rules-list-title {
+			font-size: 1.5em;
+			font-weight: bold;
+			color: #000;
+			text-align: center;
+			padding: 10px 0;
+		}
+	}
+}
+
+h1 {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: flex-end;
+	flex-direction: row;
+	pointer-events: none;
+	transition: all 0.4s;
+	font-size: 1.5em;
+	font-weight: bold;
+	color: #000;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+table {
+	border: #000 1px solid;
+	margin: 0 auto;
+	border-collapse: collapse;
+
+	thead {
+		background: #000;
+		color: #fff;
+		border-bottom: #000 1px solid;
+	}
+
+	th:nth-child(1) {
+		width: 250px;
+	}
+
+	th:nth-child(2) {
+		width: 200px;
+	}
+
+	th:nth-child(3) {
+		width: 250px;
+	}
+
+	th:nth-child(4) {
+		width: 200px;
+	}
+
+	th:nth-child(5) {
+		width: 150px;
+	}
+
+	th:nth-child(6) {
+		width: 100px;
+	}
+
+	td {
+		padding: 5px;
+		text-align: left;
+		font-size: 1.5em;
+		font-weight: bold;
+
+		> button {
+			height: 100%;
+			width: 100%;
+			padding: 10px 2px;
+		}
+
+		&:nth-child(5) {
+			text-align: center;
+		}
+
+		> input,
+		select {
+			width: 100%;
+			height: 100%;
+			border: solid 1px #000;
+			border-radius: 2px;
+			background: transparent;
+			text-align: center;
+			font-size: 1.5em;
+			font-size: medium;
+			font-weight: bold;
+			padding: 5px 10px;
+			color: #000;
+			box-sizing: border-box;
+
+			&:focus {
+				outline: none;
+			}
+		}
+	}
+}
+
+.write-word {
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	&-input {
+		margin-right: 10px;
+		border: solid 1px #000;
+		border-radius: 2px;
+		background: transparent;
+		text-align: center;
+		font-size: 1.5em;
+		font-size: medium;
+		font-weight: bold;
+		padding: 5px 10px;
+		color: #000;
+		box-sizing: border-box;
+		transition: all 0.4s;
+
+		&:focus {
+			outline: none;
+		}
+	}
+
+	&-btn {
+		border: solid 1px #000;
+		border-radius: 2px;
+		background: transparent;
+		text-align: center;
+		font-size: 1.5em;
+		font-size: medium;
+		font-weight: bold;
+		padding: 5px 10px;
+		color: #000;
+		box-sizing: border-box;
+		transition: all 0.2s;
+		margin: 0 10px;
+
+		&:focus {
+			outline: none;
+		}
+
+		&:hover {
+			background: #000;
+			color: #fff;
+		}
+
+		&:active {
+			background: #000;
+			color: #fff;
+		}
+
+		&#clear-btn:hover {
+			background: #f00;
+			color: #fff;
+			border-color: #f00;
+		}
+	}
+}
+
+.rules-table tr {
+	
+	td {
+		&:nth-child(1),
+		&:nth-child(2) {
+			background: #ddd;
+		}
+	}
+
+	&:hover {
+		background: #000;
+		color: #fff;
+
+		td {
+			background: #000;
+			color: #fff;
+		}
+	}
+}

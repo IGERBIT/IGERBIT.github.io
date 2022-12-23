@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <title>Turing Machine</title>
-    </head>
-    <body>
-        <nav>Turing Machine</nav>
+	<head>
+		<meta charset="utf-8" />
+		<title>Turing Machine</title>
+		<link rel="stylesheet" href="./dist/style.css">
+		<script data-main="dist/index" src="require.js" defer></script>
+	</head>
+	<body>
+		<nav>Turing Machine</nav>
 		<div class="mainline-block">
 			<div class="line">
-				
+				<div class="current-state">
+					<div class="current-state-title">Состояние:</div>
+					<input type="text" class="current-state-value" id="current-state" />
+				</div>
 				<div class="line-side left-side">
 					<div id="left-line" class="left-container"></div>
 				</div>
-				<div id="pointer" class="line-side center">
-
-				</div>
-				<div  class="line-side right-side">
+				<div id="pointer" class="line-side center"></div>
+				<div class="line-side right-side">
 					<div id="right-line" class="right-container"></div>
 				</div>
 				<button id="move-left-btn" class="left-btn">&lt;</button>
@@ -24,42 +27,76 @@
 		</div>
 		<div class="general-wrapper">
 			<div class="controls">
-				<button id="run-btn" class="bg-green">Run</button>
-				<button id="step-btn" class="bg-blue">Make Step</button>
-				<button id="reset-btn" >Reset</button>
+				<button id="run-btn" class="bg-green">Запустить</button>
+				<button id="step-btn" class="bg-blue">Шаг</button>
+				<button id="reset-btn">Сброс</button>
+			</div>
+			<div class="message"></div>
+			<h1>Лента:</h1>
+			<div class="write-word">
+				<input type="text" id="word-to-write" class="write-word-input" />
+				<button id="write-word" class="write-word-btn">Записать</button>
+				<button id="clear-line" class="write-word-btn">Отчистить ленту</button>
 			</div>
 			<div class="rules">
-				<div class="add-rules">
-					<div class="add-rules-block">
-						<div class="add-rules-block-title">State</div>
-						<input type="text" id="current-state" class="add-rules-block-input">
-					</div>
-					<div class="add-rules-block">
-						<div class="add-rules-block-title">Symbol</div>
-						<input type="text" id="current-symbol" class="add-rules-block-input">
-					</div>
-					<div class="add-rules-block">
-						<div class="add-rules-block-title">New Symbol</div>
-						<input type="text" id="new-symbol" class="add-rules-block-input">
-					</div>
-					<div class="add-rules-block">
-						<div class="add-rules-block-title">New State</div>
-						<input type="text" id="new-state" class="add-rules-block-input">
-					</div>
-					<div class="add-rules-block">
-						<div class="add-rules-block-title">Direction</div>
-						<select id="direction" class="add-rules-block-input">
-								<option value="left">Stay</option>
-								<option value="left">Left</option>
-								<option value="right">Right</option>
-						</select>
-					</div>
-					<button id="add-rule-btn" class="bg-green">Add Rule</button>
-					
-				</div>
+				<div class="rules-list-title">Новое Правило</div>
+				<table class="new-rules-table">
+					<thead>
+						<tr>
+							<th>Состояние</th>
+							<th>Значение</th>
+							<th>Новое Состояние</th>
+							<th>Новое Значение</th>
+							<th>Сдвиг</th>
+							<th>Добавить</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							
+							<td>
+								<input type="text" id="new-rule-state" class="add-rules-block-input" />
+							</td>
+							<td>
+								<input type="text" id="new-rule-symbol" class="add-rules-block-input" />
+							</td>
+							<td>
+								<input type="text" id="new-rule-new-state" class="add-rules-block-input" />
+							</td>
+							<td>
+								<input type="text" id="new-rule-new-symbol" class="add-rules-block-input" />
+							</td>
+							<td>
+								<select id="new-rule-direction" class="add-rules-block-input"								>
+									<option value="stay">Нет</option>
+									<option value="left">Влево</option>
+									<option value="right">Вправо</option>
+								</select>
+							</td>
+							<td>
+								<button id="add-rule-btn" class="add-rule-btn bg-green">
+									Добавить
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="rules-list-title">Правила</div>
+				<table class="rules-table">
+					<thead>
+						<tr>
+							<th>Состояние</th>
+							<th>Значение</th>
+							<th>Новое Состояние</th>
+							<th>Новое Значение</th>
+							<th>Сдвиг</th>
+							<th>Удалить</th>
+						</tr>
+					</thead>
+					<tbody id="rules-list">
+					</tbody>
+				</table>
 			</div>
 		</div>
-	
-    </body>
-    
+	</body>
 </html>

@@ -6,21 +6,17 @@
   "scripts": {
     "build": "webpack --mode=production --define-process-env-node-env=production",
     "build:dev": "webpack --mode=development",
-    "watch-wp": "webpack --watch",
-    "watch-ts": "tsc --watch",
-    "watch-css": "sass --watch style.scss:dist/style.css",
-	"watch": "concurrently  \"npm:watch-ts\" \"npm:watch-css\""
+    "watch": "webpack --watch"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@webpack-cli/generators": "^3.0.0",
-    "concurrently": "^7.6.0",
     "css-loader": "^6.7.2",
     "html-webpack-plugin": "^5.5.0",
     "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
-    "sass": "^1.57.1",
+    "sass": "^1.56.1",
     "sass-loader": "^13.2.0",
     "style-loader": "^3.3.1",
     "ts-loader": "^9.4.1",

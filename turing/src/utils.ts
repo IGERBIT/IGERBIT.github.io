@@ -9,3 +9,19 @@ export function isVisibleInViewport(el: HTMLElement, partiallyVisible = false) {
 
 	return top >= 0 && left >= 0 && bottom <= innerHeight && right <= innerWidth;
 }
+
+export function elementFromHtml<TE extends HTMLElement>(html: string) {
+	const div = document.createElement('div');
+	div.innerHTML = html;
+	return div.firstElementChild as TE;
+}
+
+export function elementFromTemplate<TE extends HTMLElement>(html: string, args: Record<string,string>) {
+	const div = document.createElement('div');
+	div.innerHTML = html;
+	const element = div.firstElementChild as TE;
+	for (const key in args) {
+		element.setAttribute(key, args[key]);
+	}
+	return element;
+}
